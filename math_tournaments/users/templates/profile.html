@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+
+{% block nav_profile %}
+"active"
+{% endblock %}
+
+{% block content %}
+<div class="col-md-4 col-md-offset-2">
+    <h3>Ваши данные:</h3>
+    <p>
+        <strong>E-mail:</strong> {{ object.email }}
+    </p>
+    <p>
+        <strong>Номер телефона:</strong> {% if object.phone %}{{ object.phone }}{% else %}-{% endif %}
+    </p>
+    <p>
+        <strong>Имя:</strong> {{ object.first_name }}
+    </p>
+    <p>
+        <strong>Фамилия:</strong> {{ object.last_name }}
+    </p>
+    <p>
+        <strong>Дата рождения:</strong> {{ object.birth_date }}
+    </p>
+
+    <a href={% url 'update-user' %} role="button" class="btn btn-default">Изменить данные</a>
+</div>
+{% endblock %}

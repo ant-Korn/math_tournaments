@@ -106,7 +106,7 @@ class Tournament(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('tour-detail', kwargs={'pk': self.pk})
+        return reverse('tour-list', kwargs={'pk': self.pk})
 
     def get_fields(self):
         exclude = ('id', 'owner')

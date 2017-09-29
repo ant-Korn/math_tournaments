@@ -51,7 +51,7 @@ class RoundForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RoundForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
+        self.helper = FormHelper(self)
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'

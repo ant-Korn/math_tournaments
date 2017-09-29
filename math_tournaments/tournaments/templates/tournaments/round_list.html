@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% load static %}
+{% load replace %}
 
 {% block content %}
     <h1>{% block table_title %}Раунды{% endblock %}</h1>
@@ -47,7 +48,7 @@
                 </a> 
                 {% endif %}
                 </td>
-            <td> {{ round.duration }} </td>
+            <td> {{ round.duration|replace:"/days?/д" }} </td>
             <td> {{ round.get_typization_display }} </td>
             <td> {{ round.max_score }} </td>
             <td>

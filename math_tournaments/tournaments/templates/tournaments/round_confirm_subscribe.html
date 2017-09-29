@@ -1,0 +1,7 @@
+{% extends "./tournament_confirm_delete.html" %}
+
+{% block action %}подписаться на{% endblock %}
+{% block subject %}раунд{% endblock %}
+{% block button_class %}"btn btn-success"{% endblock %}
+{% block base_url %}{% url 'round-list' owner=object.tournament.pk %}{% endblock %}
+{% block button_label %}Подписаться{% endblock %}

@@ -10,7 +10,6 @@
     <title>Математические турниры</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block styles %}{% endblock %}
 
     <!--[if lt IE 9]>
@@ -20,8 +19,8 @@
 
 <body>
     <ul class="nav nav-pills">
-      <li class={% block nav_tournaments %}""{% endblock %}><a href={% url 'tournaments-list' %}>Турниры</a></li>
     {% if user.is_authenticated %}
+      <li class={% block nav_tournaments %}""{% endblock %}><a href={% url 'tour-list' %}>Турниры</a></li>
       <li class={% block nav_profile %}""{% endblock %}><a href={% url 'profile-user' %}>Профайл</a></li>
       <li><a href={% url 'logout_pg' %}>выйти из {{ user.email }}</a></li>
      {% else %}
@@ -30,7 +29,7 @@
      {% endif %}
     </ul>
     <div class="container-fluid">
-        <div class="col-md-9 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2">
             {% block content %}{% endblock %}
         </div>
     </div>

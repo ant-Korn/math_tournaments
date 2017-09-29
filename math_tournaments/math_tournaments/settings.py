@@ -16,6 +16,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+STATIC_ROOT = os.path.join(BASE_DIR, os.getenv('STATIC_PATH'))
+MEDIA_ROOT = os.path.join(BASE_DIR, os.getenv('MEDIA_PATH'))
  
 
 # Quick-start development settings - unsuitable for production
@@ -29,6 +32,11 @@ DEBUG = bool(int(os.getenv('DEBUG', False)))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',') if os.getenv('ALLOWED_HOSTS') else []
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True
+SECURE_BROWSER_XSS_FILTER = True
 
 # Application definition
 
@@ -43,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     
     'users',
+    'tournaments',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -127,7 +136,7 @@ PASSWORD_HASHERS = [
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -140,6 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 # CRISPY FORMS settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

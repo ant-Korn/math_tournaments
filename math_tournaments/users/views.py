@@ -17,20 +17,20 @@ class LoginAfterFormValidMixin:
                                 password=form.cleaned_data['password']
                                )
         login(self.request, new_user)
-        return http.HttpResponseRedirect(reverse_lazy('profile-user'))
+        return http.HttpResponseRedirect(self.success_url)
 
 
 class CreateUser(LoginAfterFormValidMixin, CreateView):
     template_name = 'registrate.html'
     form_class = UserForm
-    success_url = reverse_lazy('tournaments-list')
+    success_url = reverse_lazy('profile-user')
     model = User
 
 class UpdateUser(LoginRequiredMixin, LoginAfterFormValidMixin, UpdateView):
     template_name = 'update_user.html'
     form_class = UserUpdateForm
     model = User
-    success_url = reverse_lazy('tournaments-list')
+    success_url = reverse_lazy('profile-user')
 
     def get_object(self, queryset=None):
         return self.request.user

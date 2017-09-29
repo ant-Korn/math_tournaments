@@ -1,0 +1,4 @@
+
+{% extends "./tournament_confirm_delete.html" %}
+
+{% block base_url %}{% url 'round-list' owner=object.tournament.pk %}{% endblock %}

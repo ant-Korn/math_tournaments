@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+
+{% block nav_tournaments %}
+"active"
+{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/tournaments-list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>{% block table_title %}Задачи{% endblock %}</h1>
+    <p>У вас {{ score }} баллов.</p>
+        {% for task in object_list %}
+        <div class="row">
+             <div class="col-md-6">
+                <img src="{{ task.image.url }}" class="img-responsive">
+             </div>
+             <div class="col-md-2">
+                <form  action={% url 'task-answer' tour=tour round=round task=task.pk %} method='post' name='answer_form'>
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <label for="answer">Ваш ответ:</label>
+                        <input type="text" class="form-control" name="answer-{{ tour }}-{{ round }}-{{ task.pk }}">
+                        <button type="submit" class="btn btn-primary">Ответить</button>
+                    </div>
+                </form>
+             </div>
+        </div>
+        <hr>
+        {% empty %}
+        <p>Задачи завершились</p>
+        {% endfor %}
+            
+{% endblock %}

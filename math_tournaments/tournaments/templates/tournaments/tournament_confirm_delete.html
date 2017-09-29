@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+
+{% block nav_tournaments %}
+"active"
+{% endblock %}
+
+{% block content %}
+<div class="col-md-4 col-md-offset-2">
+    <form action="" method="post">{% csrf_token %}
+        <p>Вы уверены, что хотите {% block action %}удалить{% endblock %} {% block subject %}турнир{% endblock %}: <strong>"{{ object }}"</strong>?</p>
+        <button name='success' type="submit" class={% block button_class %}"btn btn-danger"{% endblock %}>{% block button_label %}Удалить{% endblock %}</button>
+        <a href={% block base_url %}{% url 'tour-list' %}{% endblock %} role="button" class="btn btn-default">Отмена</a>
+    </form>
+</div>
+{% endblock %}

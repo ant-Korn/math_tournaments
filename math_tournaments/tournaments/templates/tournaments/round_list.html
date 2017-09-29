@@ -1,0 +1,86 @@
+
+{% extends "base.html" %}
+
+{% block nav_tournaments %}
+"active"
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <h1>{% block table_title %}Раунды{% endblock %}</h1>
+
+    {% if perms.tournaments.add_round and tour.owner == user %}
+    {% block control_buttons %}
+        <a href={% url 'round-create' owner=tour.pk %} role="button" class="btn btn-success control-btn">Добавить раунд</a>
+    {% endblock control_buttons %}
+    {% endif %}
+
+    <table class="table table-striped table-bordered">
+        {% for round in object_list %}
+        {% if forloop.first %}
+        <tr>
+            <th>
+                №
+            </th>
+            {% for _, verbose_name, _ in round.get_fields  %}
+            <th>
+                {{ verbose_name }}
+            </th>
+            {% endfor %}
+            <th>
+                Максимальный балл
+            </th>
+            <th>
+                Управление
+            </th>
+        </tr>
+        {%endif%}
+        <tr>
+            <td> {{ forloop.counter }} </td>
+            <td> 
+                {% if perms.tournaments.change_round and perms.tournaments.delete_round %}
+                <a href={% url 'task-list' owner=round.id %}>
+                {% endif %}
+                    {{ round.start_at }}
+                {% if perms.tournaments.change_round and perms.tournaments.delete_round %}
+                </a> 
+                {% endif %}
+                </td>
+            <td> {{ round.duration }} </td>
+            <td> {{ round.get_typization_display }} </td>
+            <td> {{ round.max_score }} </td>
+            <td>
+            {% if perms.tournaments.change_round or perms.tournaments.delete_round %}
+                {% if user == round.tournament.owner %}
+                    {% if perms.tournaments.change_round %}
+                    <a href={% url 'round-update' pk=round.id %} role="button" class="btn btn-default">Изменить</a>
+                    {% endif %}
+                    {% if perms.tournaments.delete_round %}
+                    <a href={% url 'round-delete' pk=round.id %} role="button" class="btn btn-danger">Удалить</a>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% if round.subscribe_available %}
+                    {% if not request.user in round.subscribers.all %}
+                        {% if round.typization != round.FINAL or round.typization == round.FINAL and user.pk in top_users %}
+                            <a href={% url 'round-subscribe' pk=round.id %} role="button" class="btn btn-success">Подписаться</a>
+                        {% endif %}
+                    {% else %}
+                        <p>Вы подписаны на этот раунд.</p>
+                    {% endif %}
+                {% else %}
+                    {% if round.in_progress and request.user in round.subscribers.all  %}
+                        <a href={% url 'round-start' tour=tour.id round=round.id %} role="button" class="btn btn-primary">Приступить к решению</a>
+                    {% else %}
+                        <p>Запись на раунд прекращена.</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            </td>
+            {% empty %}
+            <td>Раундов ещё нет.</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

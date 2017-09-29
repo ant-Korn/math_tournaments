@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block nav_tournament %}
+"active"
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}

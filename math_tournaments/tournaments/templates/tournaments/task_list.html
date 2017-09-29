@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block nav_tournaments %}
+"active"
+{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/tournaments-list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>{% block table_title %}Задачи{% endblock %}</h1>
+    
+    {% if perms.tournaments.add_tournament %}
+    {% block control_buttons %}
+        <a href={% url 'task-create' owner=round.pk %} role="button" class="btn btn-success control-btn">Добавить задачу</a>
+    {% endblock control_buttons %}
+    {% endif %}
+    
+        {% for task in object_list %}
+        <div class="row">
+             <div class="col-md-6">
+                <img src="{{ task.image.url }}" class="img-responsive">
+             </div>
+             <div class="col-md-2">
+                <strong>Верный ответ:</strong>
+                {{ task.right_answer }}
+                {% if user == task.round.tournament.owner %}
+                    {% if perms.tournaments.change_task %}
+                        <a href={% url 'task-update' pk=task.id %} role="button" class="btn btn-default">Изменить</a>
+                    {% endif %}
+                    {% if perms.tournaments.delete_task %}
+                        <a href={% url 'task-delete' pk=task.id %} role="button" class="btn btn-danger">Удалить</a>
+                    {% endif %}
+                {% endif %}
+             </div>
+        </div>
+        <hr>
+        {% empty %}
+        <p>Задачь ещё нет</p>
+        {% endfor %}
+            
+{% endblock %}

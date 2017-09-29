@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block nav_tournaments %}
+"active"
+{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/tournament-list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>{% block table_title %}Турниры{% endblock %}</h1>
+
+    {% if perms.tournaments.add_tournament %}
+    {% block control_buttons %}
+        <a href={% url 'tour-create' %} role="button" class="btn btn-success control-btn">Добавить турнир</a>
+    {% endblock control_buttons %}
+    {% endif %}
+
+    <table class="table table-striped table-bordered">
+        {% for tour in object_list %}
+        {% if forloop.first %}
+        <tr>
+            {% for _, verbose_name, _ in tour.get_fields  %}
+            <th>
+                {{ verbose_name }}
+            </th>
+            {% endfor %}
+            <th>
+                Управление
+            </th>
+        </tr>
+        {%endif%}
+        <tr>
+            <td> <a href={% url 'round-list' owner=tour.id %}>{{ tour.name }}</a> </td>
+            <td> {{ tour.top_N_to_final }} </td>
+            <td> {{ tour.top_N_winners }} </td>
+            <td>
+            {% if user == tour.owner %}
+                {% if perms.tournaments.change_tournament %}
+                <a href={% url 'tour-update' pk=tour.id %} role="button" class="btn btn-default">Изменить</a>
+                {% endif %}
+                {% if perms.tournaments.delete_tournamen %}
+                <a href={% url 'tour-delete' pk=tour.id %} role="button" class="btn btn-danger">Удалить</a>
+                {% endif %}
+            {% endif %}
+            <a href={% url 'top-list' tour=tour.id %} role="button" class="btn btn-primary">Топ участников</a>
+            </td>
+            {% empty %}
+            <td>Турниров ещё нет.</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -3,4 +3,4 @@ python-dotenv
 mysqlclient==1.3.10
 django[argon2]
 django-crispy-forms
-Pillow==6.2.0
+Pillow==9.0.1
